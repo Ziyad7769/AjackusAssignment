@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import DeleteModal from "./DeleteModal";
-import UserModal from "./UserModal";
+import DeleteModal from "./DeleteModal"; 
+import UserModal from "./UserModal"; 
 
+// Function to extract first and last name from full name
 function extractFirstAndLastName(fullName) {
   const parts = fullName.trim().split(" ");
 
+  // If there's only one part, return it as the first name and an empty last name
   if (parts.length === 1) {
     return { firstName: parts[0], lastName: "" };
   }
 
+  // Return first and last name when both are available
   return {
     firstName: parts[0],
     lastName: parts[parts.length - 1],
@@ -17,43 +20,48 @@ function extractFirstAndLastName(fullName) {
 
 const UserTable = ({ data, deleteUser, addUser, editUser }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [userId, setUserId] = useState("");
-  const [userModalOpen, setUserModalOpen] = useState(false);
+  const [userId, setUserId] = useState(""); 
+  const [userModalOpen, setUserModalOpen] = useState(false); 
   const [currentUser, setCurrentUser] = useState(null);
 
+  // Function to open delete modal with selected user ID
   const handleDelete = (id) => {
     setDeleteModalOpen(true);
-    setUserId(id);
+    setUserId(id); 
   };
 
+  // Function to open edit modal with selected user data
   const handleEdit = (user) => {
     setCurrentUser(user);
-    setUserModalOpen(true);
+    setUserModalOpen(true); 
   };
 
+  // Function to open add user modal
   const handleAdd = () => {
     setCurrentUser(null);
-    setUserModalOpen(true);
+    setUserModalOpen(true); 
   };
 
   return (
     <>
+      {/* Delete Modal component */}
       <DeleteModal
         isOpen={deleteModalOpen}
         setIsOpen={setDeleteModalOpen}
-        onClick={() => deleteUser(userId)}
+        onClick={() => deleteUser(userId)} 
       />
+      {/* User Modal component for adding or editing user */}
       <UserModal
         isOpen={userModalOpen}
         setIsOpen={setUserModalOpen}
         onSubmit={(userData) => {
           if (currentUser) {
-            editUser(userData);
+            editUser(userData); 
           } else {
-            addUser(userData);
+            addUser(userData); 
           }
         }}
-        currentUser={currentUser}
+        currentUser={currentUser} 
       />
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:items-center">
@@ -66,10 +74,11 @@ const UserTable = ({ data, deleteUser, addUser, editUser }) => {
               title, email, and role.
             </p>
           </div>
+          {/* Button to add new user */}
           <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
             <button
               type="button"
-              onClick={handleAdd}
+              onClick={handleAdd} 
               className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
             >
               Add User
@@ -77,6 +86,7 @@ const UserTable = ({ data, deleteUser, addUser, editUser }) => {
           </div>
         </div>
         <div className="-mx-4 mt-8 sm:-mx-0">
+          {/* Table to display user data */}
           <table className="min-w-full divide-y divide-gray-300">
             <thead>
               <tr>
@@ -101,33 +111,37 @@ const UserTable = ({ data, deleteUser, addUser, editUser }) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
+              {/* Loop through each user and display their data */}
               {data.map((person) => (
                 <tr key={person.id}>
                   <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
                     {person.id}
                   </td>
                   <td className="px-3 py-4 text-sm text-gray-500">
-                    {extractFirstAndLastName(person.name).firstName}
+                    {extractFirstAndLastName(person.name).firstName}{" "}
+             
                   </td>
                   <td className="px-3 py-4 text-sm text-gray-500">
-                    {extractFirstAndLastName(person.name).lastName}
+                    {extractFirstAndLastName(person.name).lastName}{" "}
+                  
                   </td>
                   <td className="px-3 py-4 text-sm text-gray-500">
-                    {person.email}
+                    {person.email} 
                   </td>
                   <td className="px-3 py-4 text-sm text-gray-500">
                     {person.website}
                   </td>
                   <td className="py-4 pl-3 pr-4 text-right text-sm font-medium">
+                    {/* Action buttons to edit or delete user */}
                     <button
                       className="text-indigo-600 hover:text-indigo-900 mr-2"
-                      onClick={() => handleEdit(person)}
+                      onClick={() => handleEdit(person)} 
                     >
                       Edit
                     </button>
                     <button
                       className="text-red-600 hover:text-red-900"
-                      onClick={() => handleDelete(person.id)}
+                      onClick={() => handleDelete(person.id)} 
                     >
                       Delete
                     </button>
