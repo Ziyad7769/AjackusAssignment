@@ -15,9 +15,28 @@ const User = () => {
       );
       setData(response.data);
     } catch (error) {
+      console.log(setError(error.message));
+    }
+  };
+
+  const deleteUser = async (id) => {
+    try {
+      const response = await axios.delete(
+        "https://jsonplaceholder.typicode.com/users/" + id
+      );
+      setData(() => data.filter((item) => item.id !== id));
+    } catch (error) {
       console.log(error);
     }
   };
+
+  const EditUser = () => {
+    
+  }
+
+  const AddUser = () => {
+
+  }
 
   useEffect(() => {
     fetchUser();
@@ -25,8 +44,7 @@ const User = () => {
 
   return (
     <div>
-      <CustomModal isOpen={isOpen} setIsOpen={setIsOpen} />
-      <UserTable data={data} setIsOpen={setIsOpen} />
+      <UserTable data={data} setIsOpen={setIsOpen} deleteUser={deleteUser}/>
     </div>
   );
 };
